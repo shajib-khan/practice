@@ -30,6 +30,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
+                <th scope="col">Image</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -39,6 +40,8 @@
                 <td>{{ $data->id }}</td>
                 <td>{{ $data->name }}</td>
                 <td>{{ $data->email }}</td>
+                <td><img src="/image/products/{{ $data->image}}" height="100px" width="100px" /></td>
+
                 <td><a class="btn btn-primary"onclick="return confirm('Are you sure you want to edit this item?')" href="{{ url('/edit-data/'.$data->id) }}">Edit</a></td>
                 <td><a class="btn btn-danger"onclick="return confirm('Are you sure you want to delete this item?')" href="{{ url('/delete-data/'.$data->id) }}">Delete</a></td>
               </tr>
@@ -46,7 +49,7 @@
               @endforeach
             </tbody>
           </table>
-          
+
     </div>
 
     <!-- Optional JavaScript -->

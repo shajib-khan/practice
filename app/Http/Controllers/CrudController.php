@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Crud;
 use Illuminate\Http\Request;
+//use File;
+use Illuminate\Support\Facades\File;
 
 
 class CrudController extends Controller
@@ -48,10 +50,24 @@ class CrudController extends Controller
             'name' => 'required',
             'email' => 'required',
         ]);
-        $crud  = Crud::find($id);
-        $crud->name = $request->name;
-        $crud->email = $request->email;
-        $crud->save();
+        $crud  = Crud::findOrFail($id);
+        $imageName = '';
+        $deleteOldImage = 'image/products/'.$crud->image;
+
+        if ($image = $request->file('image')) {
+            if (file_exists($deleteOldImage)) {
+                File::delete($deleteOldImage);
+            }
+            $imageName = time().'_'.uniqid().'_'.$image->getClientOriginalName();
+            $image->move('image/products',$imageName);
+        } else {
+            $imageName = $crud->image;
+        }
+        Crud::where('id',$id)->update([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'image'=>$imageName,
+        ]);
         return redirect()->back()->with('upDate', 'Data Updated!');
     }
         //delete data
