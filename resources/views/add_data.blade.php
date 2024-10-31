@@ -16,7 +16,7 @@
             {{ session()->get('message') }}
         </div>
     @endif
-        <form action="{{ url('/store-data') }}" method="post">
+        <form action="{{ url('/store-data') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
               <label for="exampleInputText">Name</label>

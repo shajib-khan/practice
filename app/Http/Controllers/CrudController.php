@@ -16,15 +16,25 @@ class CrudController extends Controller
     }
     public function storeData(Request $request){
         $request->validate([
-            'name' => 'required',
+            'name'  => 'required',
             'email' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
+            'image' =>'required'
         ]);
-        $crud  = new Crud();
-        $crud->name = $request->name;
-        $crud->email = $request->email;
-        $crud->save();
+        $imageName= '';
+        if($image = $request->file('image')){
+            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move('image/products',$imageName);
+        }
+
+      Crud::create([
+     'name'=>$request->name,
+     'email'=>$request->email,
+     'image'=>$imageName,
+
+    ]);
         return redirect()->back()->with('message', 'Data Inserted!');
+
+
 
     }
     //edit data start here
