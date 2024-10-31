@@ -73,7 +73,12 @@ class CrudController extends Controller
         //delete data
 
         public function deleteData($id){
-            $deleteData = Crud::find($id);
+
+            $deleteData = Crud::findOrFail($id);
+            $deleteOldImage = 'image/products/'.$deleteData->image;
+            if (file_exists($deleteOldImage)) {
+                File::delete($deleteOldImage);
+            }
             $deleteData->delete();
             return redirect()->back()->with('DeleteData', 'Data Deleted!');
         }
