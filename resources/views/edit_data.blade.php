@@ -10,6 +10,11 @@
   </head>
   <body>
     <div class="container">
+        @if(session()->has('upDate'))
+        <div class="alert alert-success">
+            {{ session()->get('upDate') }}
+        </div>
+    @endif
       <!-- Create Post Form -->
       <a class="btn btn-primary mt-3 mb-3" href="{{ url('/') }}">Show Data</a>
       <form action="{{ url('/update-data/'.$editData->id) }}" method="post" enctype="multipart/form-data">
